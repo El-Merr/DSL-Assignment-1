@@ -35,3 +35,20 @@ syntax Type =
 	storage: "storage"
 	| processing: "processing"
 	| display: "display" ;
+
+syntax Storage =
+	storage: "storage" decl Id id "{" { StorProp "," }* "{" ;
+	
+syntax StorProp =
+	storage: "storage: SSD of" Int int "Gib";
+	
+syntax ProcProp =
+	cores: Int int
+	| speed: "speed:" Int int "Ghz"
+	| L1: "L1:" Int int "Ghz"
+	| L2: "L2:" Int int "MiB"
+	| L3: "L3:" Int int "MiB";
+	
+syntax DispProp =
+	diagonal: "diagonal:" Int int "inch"
+	| dType: "type:" Int int "K";
