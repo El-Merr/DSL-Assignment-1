@@ -5,9 +5,9 @@ module hcl::AST
  *
  * - make sure there is an almost one-to-one correspondence with the grammar in Syntax.rsc
  */
- public data COMPUTER = computer(int Id, list[COMPONENTS] comps);
+ public data COMPUTER = computer(int Id, list[COMPONENT] comps);
  public data COMPONENT = 
- 	storage(StorageProp sProp)
+ 	storage(STORAGEPROP sProp)
  	| proccessing(PROCCESSINGPROP pProp)
  	| display(DISPLAYPROP dProp);
  	
@@ -17,9 +17,9 @@ module hcl::AST
  public data PROCCESSINGPROP = 
  	cores(int Int)
  	| speed(int Int)
- 	| L1(int Int, PROCCESSINGSLTYPE pLType)
- 	| l2(int Int, PROCCESSINGSLTYPE pLType)
- 	| l3(int Int, PROCCESSINGSLTYPE pLType);
+ 	| L1(int Int, PROCCESSINGLTYPE pLType)
+ 	| l2(int Int, PROCCESSINGLTYPE pLType)
+ 	| l3(int Int, PROCCESSINGLTYPE pLType);
  public data PROCCESSINGLTYPE = kib() | mib();
  
  public data DISPLAYPROP = 
