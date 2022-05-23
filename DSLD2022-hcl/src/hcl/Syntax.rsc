@@ -6,47 +6,42 @@ module hcl::Syntax
 
 	
 // Start
-start syntax Computer =
-	computer: "computer" decl Id id "{" {Component ","}* "}";
+start syntax Program =
+	Program: "computer" Id id "{" {Component ","}* "}";
 
-lexical Id
-	= ([a-zA-Z] !<< // look behind restriction
-	[a-zA-Z][a-zA-Z0-9_]* // character classes
-	!>> [a-zA-Z0-9_]);
+lexical Id = [a-z][a-z0-9_]* !>> [a-z0-9];
 	
 layout Whitespace = [\ \t\n\r]*;
 
-lexical Int = [0-9]*;
+lexical Int = [0-9.]+;
 
 // Components
 syntax Component =
-	storage: "storage" decl Id id "{" { StorageProp "," }* "}"
-	| proccessing: "processing" decl Id id "{" {ProccessingProp "," }* "}"
-	| display: "display" decl Id id "{" {DisplayProp "," }* "}" ;
+	storage: "storage" Id id "{" { StorageProp "," }* "}"
+	| processing: "processing" Id id "{" {ProcessingProp "," }* "}"
+	| display: "display" Id id "{" {DisplayProp "," }* "}" ;
 	
 // Properties
 syntax StorageProp =
-	storageTypeSize: "storage:" StorageType "of" decl Int int "Gib";
+	storageTypeSize: "storage" ":" StorageType "of" Int int "GiB";
 	
-syntax ProccessingProp =
-	cores: "cores:" decl Int int
-	| speed: "speed:" decl Int int "Ghz"
-	| L1: "L1:" decl Int int ProccessingLType
-	| L2: "L2:" decl Int int ProccessingLType
-	| L3: "L3:" decl Int int ProccessingLType;
+syntax ProcessingProp =
+	cores: "cores" ":" Int int
+	| speed: "speed" ":" Int int "Ghz"
+	| L1: "L1" ":" Int int ProcessingLType
+	| L2: "L2" ":" Int int ProcessingLType
+	| L3: "L3" ":" Int int ProcessingLType;
 	
 syntax DisplayProp =
-	diagonal: "diagonal:" Int int "inch"
-	| dType: "type:" DisplayType;
+	diagonal: "diagonal" ":" Int int "inch"
+	| dType: "type" ":" DisplayType;
 
 // Types	
-syntax StorageType = 
-	hdd: "HDD"
-	| ssd: "SSD";
+syntax StorageType = "HDD" | "SSD";
 	
 //syntax StorageSize = ; // range from 32 to 1024 GB
 
-syntax ProccessingLType = "KiB" | "MiB";
+syntax ProcessingLType = "KiB" | "MiB";
 
 syntax DisplayType = "HD" | "Full-HD" | "4K" | "5K";
 
