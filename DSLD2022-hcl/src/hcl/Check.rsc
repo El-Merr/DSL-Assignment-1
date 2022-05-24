@@ -14,6 +14,37 @@ import hcl::AST;
  * This function takes as a parameter the program's AST and returns true if the program is well-formed or false otherwise.
  */
  
+bool checkHardwareConfiguration(&T ast) {
+	return false;
+}
+ 
 /*
 * Define a function per each verification defined in the PDF (Section 3.2.)
 */
+
+private bool checkLabelUniqueness() {
+	return false;
+}
+
+private bool checkStorageSize() {
+	return false;
+}
+
+private bool checkDisplayType() {
+	return false;
+}
+
+private bool checkDuplicateComponents() {
+	return false;
+}
+
+private bool checkTypes() {
+	return false;
+}
+
+
+
+
+
+
+
