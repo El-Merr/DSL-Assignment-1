@@ -18,9 +18,11 @@ import hcl::AST;
 * Define a function per each verification defined in the PDF (Section 3.2.)
 */
 
-bool checkHardwareConfiguration(&T ast) {
-	
-	return true;
+public bool checkHardwareConfiguration(COMPUTER ast) {
+	if(true) { //(computer(Id id, list[COMPONENT] comps, list[Id], list[Id] ids) := ast) {
+		return checkLabelUniqueness();
+	} else 
+		 throw "That is not a computer";
 }
 
 private bool checkLabelUniqueness() {

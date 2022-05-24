@@ -6,8 +6,11 @@ module hcl::AST
  * - make sure there is an almost one-to-one correspondence with the grammar in Syntax.rsc
  */
  
+ // alias for id
+ public alias Id = str;
+ 
  // main program
- public data COMPUTER = computer(&T id, list[COMPONENT] comps);
+ public data COMPUTER = computer(Id id, list[COMPONENT] comps, list[Id] ids);
  public data COMPONENT = 
  	storage(STORAGEPROP sProp)
  	| proccessing(PROCCESSINGPROP pProp)
