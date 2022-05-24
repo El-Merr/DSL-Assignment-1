@@ -5,15 +5,19 @@ module hcl::AST
  *
  * - make sure there is an almost one-to-one correspondence with the grammar in Syntax.rsc
  */
+ 
+ // main program
  public data COMPUTER = computer(int Id, list[COMPONENT] comps);
  public data COMPONENT = 
  	storage(STORAGEPROP sProp)
  	| proccessing(PROCCESSINGPROP pProp)
  	| display(DISPLAYPROP dProp);
- 	
+
+// storage 	
  public data STORAGEPROP = StorageTypeSize(STORAGETYPE sType, int Int);
  public data STORAGETYPE = hdd() | ssd();
  
+ // processing
  public data PROCCESSINGPROP = 
  	cores(int Int)
  	| speed(int Int)
@@ -22,6 +26,7 @@ module hcl::AST
  	| l3(int Int, PROCCESSINGLTYPE pLType);
  public data PROCCESSINGLTYPE = kib() | mib();
  
+ // display
  public data DISPLAYPROP = 
  	diagonal(int Int)
  	| dType(DISPLAYTYPE disType);
@@ -31,6 +36,7 @@ module hcl::AST
  	| vierk()
  	| vijfk();
  
+ // eclipse tells me these are deprecated but they work for now
  anno loc COMPUTR@location;
  anno loc COMPONENT@location;
  anno loc STORAGEPROP@location;
