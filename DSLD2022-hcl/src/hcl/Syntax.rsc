@@ -5,15 +5,20 @@ module hcl::Syntax
  */
 
 	
-// Start
+// Start of program
 start syntax Computer =
 	computer: "computer" Id id "{" {Component ","}* "}";
 
-lexical Id = [a-z][a-z0-9_]* !>> [a-z0-9];
-	
 layout Whitespace = [\ \t\n\r]*;
 
-lexical Int = [0-9.]+;
+// id labels must start with lowercase letter, but can contain upper cases, numbers and underscores
+lexical Id = [a-z][a-zA-Z0-9_]*;
+
+// positive integers
+lexical Int = [0-9]+;
+
+// positive real values with optionally one point followed by numbers
+lexical Real = [0-9]+ ([.][0-9]+)?;
 
 // Components
 syntax Component =
@@ -28,13 +33,13 @@ syntax StorageProp =
 	
 syntax ProcessingProp =
 	cores: "cores" ":" Int int
-	| speed: "speed" ":" Int int "Ghz"
+	| speed: "speed" ":" Real value "Ghz"
 	| L1: "L1" ":" Int int ProcessingLType
 	| L2: "L2" ":" Int int ProcessingLType
 	| L3: "L3" ":" Int int ProcessingLType;
 	
 syntax DisplayProp =
-	diagonal: "diagonal" ":" Int int "inch"
+	diagonal: "diagonal" ":" Real real "inch"
 	| dType: "type" ":" DisplayType;
 
 

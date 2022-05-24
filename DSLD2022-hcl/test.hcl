@@ -1,4 +1,4 @@
-computer mycomp {
+computer my_comp {
 	processing proc {
 		cores: 4,
 		speed: 2 Ghz,
