@@ -14,7 +14,7 @@ import hcl::Syntax;
 public COMPUTER cst2ast(&T parsetree) {
 	switch(parsetree) {
 		// Computer
-		case (Computer) `computer <Id id> { <Component c>* }`: return computer(id, [c]);
+		case (Computer) `computer <Id id> { <Component c>* }`: return computer(id, toList(c));
 		
 		// Components
 		//case <Component c>: COMPONENT;
@@ -35,4 +35,9 @@ public COMPUTER cst2ast(&T parsetree) {
 		//case <Id i>: toString("<i>");
 	
 	}
+}
+
+public list toList(&T items) {
+	for ( item in items) list.push(cst2ast(item))
+	return list;
 }
