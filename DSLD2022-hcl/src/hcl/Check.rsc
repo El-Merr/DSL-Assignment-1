@@ -18,7 +18,7 @@ import hcl::AST;
 * Define a function per each verification defined in the PDF (Section 3.2.)
 */
 
-bool checkHardwareConfiguration(ast) {
+bool checkHardwareConfiguration(&T ast) {
 	
 	return true;
 }

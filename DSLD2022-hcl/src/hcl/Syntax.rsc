@@ -7,7 +7,7 @@ module hcl::Syntax
 	
 // Start of program
 start syntax Computer =
-	computer: "computer" Id id "{" {Component ","}* "}";
+	computer: "computer" Id id "{" {Component ","}* {Id ","}* "}";
 
 layout Whitespace = [\ \t\n\r]*;
 
