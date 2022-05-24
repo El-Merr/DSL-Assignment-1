@@ -13,7 +13,7 @@ module hcl::AST
  public data COMPUTER = computer(Id id, list[COMPONENT] comps, list[Id] ids);
  public data COMPONENT = 
  	storage(STORAGEPROP sProp)
- 	| proccessing(PROCCESSINGPROP pProp)
+ 	| processing(PROCESSINGPROP pProp)
  	| display(DISPLAYPROP dProp);
 
 // storage 	
@@ -21,13 +21,13 @@ module hcl::AST
  public data STORAGETYPE = hdd() | ssd();
  
  // processing
- public data PROCCESSINGPROP = 
+ public data PROCESSINGPROP = 
  	cores(int Int)
  	| speed(real Real)
- 	| L1(int Int, PROCCESSINGLTYPE pLType)
- 	| l2(int Int, PROCCESSINGLTYPE pLType)
- 	| l3(int Int, PROCCESSINGLTYPE pLType);
- public data PROCCESSINGLTYPE = kib() | mib();
+ 	| L1(int Int, PROCESSINGLTYPE pLType)
+ 	| l2(int Int, PROCESSINGLTYPE pLType)
+ 	| l3(int Int, PROCESSINGLTYPE pLType);
+ public data PROCESSINGLTYPE = kib() | mib();
  
  // display
  public data DISPLAYPROP = 
@@ -44,7 +44,7 @@ module hcl::AST
  anno loc COMPONENT@location;
  anno loc STORAGEPROP@location;
  anno loc STORAGETYPE@location;
- anno loc PROCCESSINGPROP@location;
- anno loc PROCCESSINGLTYPE@location;
+ anno loc PROCESSINGPROP@location;
+ anno loc PROCESSINGLTYPE@location;
  anno loc DISPLAYPROP@location;
  anno loc DISPLAYTYPE@location;
