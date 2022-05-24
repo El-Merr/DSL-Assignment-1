@@ -7,7 +7,7 @@ module hcl::AST
  */
  
  // main program
- public data COMPUTER = computer(int Id, list[COMPONENT] comps);
+ public data COMPUTER = computer(&T id, list[COMPONENT] comps);
  public data COMPONENT = 
  	storage(STORAGEPROP sProp)
  	| proccessing(PROCCESSINGPROP pProp)
