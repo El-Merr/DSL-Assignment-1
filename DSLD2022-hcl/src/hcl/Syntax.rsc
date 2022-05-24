@@ -6,8 +6,8 @@ module hcl::Syntax
 
 	
 // Start
-start syntax Program =
-	Program: "computer" Id id "{" {Component ","}* "}";
+start syntax Computer =
+	computer: "computer" Id id "{" {Component ","}* "}";
 
 lexical Id = [a-z][a-z0-9_]* !>> [a-z0-9];
 	
@@ -21,9 +21,10 @@ syntax Component =
 	| processing: "processing" Id id "{" {ProcessingProp "," }* "}"
 	| display: "display" Id id "{" {DisplayProp "," }* "}" ;
 	
+
 // Properties
 syntax StorageProp =
-	storageTypeSize: "storage" ":" StorageType "of" Int int "GiB";
+	storageTypeSize: "storage" ":" StorageType "of" Int int "GiB"; // TODO: restrict size range
 	
 syntax ProcessingProp =
 	cores: "cores" ":" Int int
@@ -35,6 +36,7 @@ syntax ProcessingProp =
 syntax DisplayProp =
 	diagonal: "diagonal" ":" Int int "inch"
 	| dType: "type" ":" DisplayType;
+
 
 // Types	
 syntax StorageType = "HDD" | "SSD";
