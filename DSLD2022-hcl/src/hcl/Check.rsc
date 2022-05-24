@@ -17,3 +17,16 @@ import hcl::AST;
 /*
 * Define a function per each verification defined in the PDF (Section 3.2.)
 */
+bool checkHardwareConfiguration(ast) {
+	
+	return true;
+}
+bool checkStorage() {
+	return true;
+}
+bool checkProccessing() {
+	return true;
+}
+bool checkDisplay() {
+	return true;
+}

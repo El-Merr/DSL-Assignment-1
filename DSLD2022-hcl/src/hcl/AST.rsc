@@ -20,7 +20,7 @@ module hcl::AST
  // processing
  public data PROCCESSINGPROP = 
  	cores(int Int)
- 	| speed(int Int)
+ 	| speed(real Real)
  	| L1(int Int, PROCCESSINGLTYPE pLType)
  	| l2(int Int, PROCCESSINGLTYPE pLType)
  	| l3(int Int, PROCCESSINGLTYPE pLType);
@@ -28,7 +28,7 @@ module hcl::AST
  
  // display
  public data DISPLAYPROP = 
- 	diagonal(int Int)
+ 	diagonal(real Real)
  	| dType(DISPLAYTYPE disType);
  public data DISPLAYTYPE = 
  	hd()
