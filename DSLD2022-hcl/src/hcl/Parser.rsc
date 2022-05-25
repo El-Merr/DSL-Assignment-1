@@ -2,6 +2,7 @@ module hcl::Parser
 
 import ParseTree;
 import hcl::Syntax;
+import IO;
 
 /*
  * Define the parser for the HCL language. The name of the function must be parseHCL.
@@ -9,3 +10,8 @@ import hcl::Syntax;
  */
  
  public Computer parseHCL(loc l) = parse(#Computer, l);
+ 
+ // function to check parse tree output
+ public void testParse(){
+ 	println(parseHCL(|project://DSLD2022-hcl/test.hcl|));
+ }
