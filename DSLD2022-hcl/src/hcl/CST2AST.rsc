@@ -2,6 +2,7 @@ module hcl::CST2AST
 
 import hcl::AST;
 import hcl::Syntax;
+import hcl::Parser;
 
 /*
  * Implement a mapping from concrete syntax trees (CSTs) to abstract syntax trees (ASTs)
@@ -9,35 +10,50 @@ import hcl::Syntax;
  * Map regular CST arguments (e.g., *, +, ?) to lists
  * Map lexical nodes to Rascal primitive types (bool, int, str)
  */
-// import ParseTree;	// wss moeten we dit zelf doen :(
  
-public COMPUTER cst2ast(&T parsetree) {
-	switch(parsetree) {
-		// Computer
-		case (Computer) `computer <Id id> { <Component c>* }`: return computer(id, toList(c));
-		
-		// Components
-		//case <Component c>: COMPONENT;
-		//
-		//// Properties
-		//case <StorageProp s>: STORAGEPROP;
-		//case <ProcessingProp p>: PROCESSINGPROP;
-		//case <DisplayProp d>: DISPLAYPROP;
-		//
-		//// Property Types
-		//case <StorageType s>: STORAGETYPE;
-		//case <ProcessingType p>: PROCESSINGTYPE;
-		//case <DisplayType d>: DISPLAYTYPE;
-		//
-		//// Value Types
-		//case <Int i>: toInt("<i>");
-		//case <Real r>: toReal("<r>");
-		//case <Id i>: toString("<i>");
+public COMPUTER loadComputer(loc text) = load(parseHCL(text)); // should this be (COMPUTER) abstr or Computer (conc)
+
+public COMPUTER load((Computer) `computer <Id id> { <Component comp>* } { <Id ids>* }`) = 
+	computer(loadId(id), [loadComponent(c) | c <- comp], [loadId(i) | i <- ids]);
 	
+// Case distinction on components
+public COMPONENT loadComponent(Component c) {
+	switch (c) {
+		case (Component) `storage <Id id> { <StorageProp p>* } `: return storage(loadStorageProp(p));
 	}
+	return load(c);
+} 
+
+// StorageProp
+public STORAGEPROP loadStorageProp(StorageProp p) {
+	return load((StorageProp) `storage <StorageType t> <Int i>`) = StorageTypeSize(loadStorageType(t), loadInt(i));
 }
 
-public list toList(&T items) {
-	for ( item in items) list.push(cst2ast(item))
-	return list;
+// StorageType
+public STORAGETYPE loadStorageType(t) {
+	switch (t) {
+		case "HDD": return hdd();
+		case "SSD": return ssd(); 
+	}
+	return hdd(); //default
+}
+
+// Map lexial Id to str
+public str loadId(Id id) {
+	return id;
+}
+
+// Map lexial Int to int
+public int loadInt(Int i) {
+	return i;
+}
+
+// Map lexial Real to real
+public real loadReal(Real i) {
+	return i;
+}
+
+// top level function to start conversion
+public COMPUTER cst2ast(&T parseTree) {
+	return loadComputer(parseTree);
 }
