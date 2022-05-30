@@ -86,11 +86,6 @@ public DISPLAYTYPE loadDisplayType(DisplayType d) {
 	}
 }
 
-// Map lexial Id to str
-//public str loadId(Id i) {
-//	return i;
-//}
-
 // top level function to start conversion
 public COMPUTER cst2ast(&T parseTree) {
 	return loadComputer(parseTree);
