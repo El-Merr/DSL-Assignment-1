@@ -16,5 +16,6 @@ computer my_comp {
 	display disp2 {
 		diagonal: 32 inch,
 		type: 4K
-	}
+	},
+	stor
 }

@@ -28,6 +28,7 @@ public COMPONENT loadComponent(Component c) {
 		case (Component) `storage <Id label> { <{StorageProp","}* props> }`: return storage("<label>", [loadStorageProp(p) | p <- props]);
 		case (Component) `processing <Id label> { <{ProcessingProp","}* props> }`: return processing("<label>", [loadProcessingProp(p) | p <- props ]);
 		case (Component) `display <Id label> { <{DisplayProp","}* props> }`: return display("<label>", [loadDisplayProp(p) | p <- props] );
+		case (Component) `<Id label>`: return reuseComp("<label>");
 		default: throw "component error";
 	}
 } 
