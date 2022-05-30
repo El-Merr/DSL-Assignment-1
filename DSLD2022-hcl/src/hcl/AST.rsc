@@ -18,7 +18,7 @@ module hcl::AST
  	| reuseComp(HclId label);
 
 // storage 	
- public data STORAGEPROP = StorageTypeSize(STORAGETYPE sType, int Int);
+ public data STORAGEPROP = storageTypeSize(STORAGETYPE sType, int Int);
  public data STORAGETYPE = hdd() | ssd();
  
  // processing
