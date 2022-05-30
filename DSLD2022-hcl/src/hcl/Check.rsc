@@ -24,14 +24,6 @@ public bool checkHardwareConfiguration(COMPUTER ast) {
 	} else throw "Not a computer";
 }
 
-private bool checkLabelUniqueness(COMPUTER ast) {
-	// for each label in ast return notEqual
-	//switch (ast) {
-	//	
-	//}
-	return false;
-}
-
 private bool checkStorageSize(HclId label, list[COMPONENTS] comps) {
 	// each drive between 32 and 1024 gb and total between 0 and 8192 gb
 	int total = 0;
@@ -47,6 +39,35 @@ private bool checkStorageSize(HclId label, list[COMPONENTS] comps) {
 	}
 	
 	return total <= 8192;
+		return checkLabelUniqueness(label, comps) &&
+		checkStorageSize(comps);
+	} else throw "Not a computer";
+} 
+
+private bool checkLabelUniqueness(HclId label, list[COMPONENT] comps) {
+ 	// for each label in ast return notEqual
+ 	HclId slabel = "";
+ 	HclId plabel = "";	
+ 	HclId dlabel = "";
+ 	HclId clabel = "";
+ 	for (c <- comps) {
+		switch (c) {
+			case storage(HclId l, list[STORAGEPROP] sProps): slabel = l;
+			case processing(HclId l, list[PROCESSINGPROP] pProps): plabel = l;
+			case display(HclId l, list[DISPLAYPROP] dProps): dlabel = l;
+			case HclId l: clabel = l;
+			default: return false;
+		}
+	}
+	// needs a null check, this will now break
+	list[HclId] labels = [slabel, plabel, dlabel];
+	return slabel != plabel
+	&& slabel != dlabel 
+	&& slabel != label
+	&& plabel != dlabel
+	&& plabel != label
+	&& dlabel != label
+	&& clabel in labels;
 }
 
 private bool checkLSize(HclId label, List[PROCESSINGPROP] props) {
