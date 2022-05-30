@@ -15,6 +15,7 @@ import IO;
  */
 
 // called in main 
+
 // public COMPUTER loadComputer(loc text) = load(parseHCL(text)); // should this be (COMPUTER) abstr or Computer (conc)
 
 public COMPUTER load((Computer)`computer <Id label> {<{Component","}* comp>}`) {

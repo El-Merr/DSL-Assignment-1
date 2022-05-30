@@ -12,6 +12,7 @@ import hcl::CST2AST;
  */
  
  public Computer parseHCL(loc l) = parse(#Computer, l);
+ public Computer loadImplode(loc l) = implode(#Computer, parse(#Computer, l)); 
  
  // function to check parse tree output
  public void testParse(){
