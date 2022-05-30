@@ -39,9 +39,6 @@ private bool checkStorageSize(HclId label, list[COMPONENTS] comps) {
 	}
 	
 	return total <= 8192;
-		return checkLabelUniqueness(label, comps) &&
-		checkStorageSize(comps);
-	} else throw "Not a computer";
 } 
 
 private bool checkLabelUniqueness(HclId label, list[COMPONENT] comps) {
