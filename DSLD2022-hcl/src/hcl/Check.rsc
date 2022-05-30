@@ -21,7 +21,7 @@ import hcl::AST;
 public bool checkHardwareConfiguration(COMPUTER ast) {
 	if (computerComp(HclId label, list[COMPONENT] comps) := ast) {
 		return checkLabelUniqueness(ast)
-		&& checkStorageSize()
+		&& checkStorageSize(ast)
 		&& checkDisplayType()
 		&& checkDuplicateComponents()
 		&& checkTypes();
