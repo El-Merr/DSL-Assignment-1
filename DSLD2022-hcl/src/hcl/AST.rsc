@@ -14,7 +14,8 @@ module hcl::AST
  public data COMPONENT = 
  	storage(HclId label, list[STORAGEPROP] sProps)
  	| processing(HclId label, list[PROCESSINGPROP] pProps)
- 	| display(HclId label, list[DISPLAYPROP] dProps);
+ 	| display(HclId label, list[DISPLAYPROP] dProps)
+ 	| reuseComp(HclId label);
 
 // storage 	
  public data STORAGEPROP = StorageTypeSize(STORAGETYPE sType, int Int);

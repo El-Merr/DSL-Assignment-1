@@ -49,7 +49,14 @@ private bool checkLSize() {
 	return false;
 }
 
-private bool checkDisplayType() {
+private bool checkDisplayType(DISPLAYTYPE d) {
+	switch (d)  {
+		case "HD": return true;
+		case "Full-HD": return true;
+		case "4K": return true;
+		case "5K": return true;
+		default: return false;
+	}
 	return false;
 }
 
@@ -57,6 +64,7 @@ private bool checkDuplicateComponents() {
 	return false;
 }
 
+// only support Booleans, integers, reals and strings
 private bool checkTypes() {
 	return false;
 }

@@ -23,7 +23,8 @@ lexical Real = [0-9]+ ([.][0-9]+)?;
 syntax Component =
 	storage: "storage" Id label "{" { StorageProp "," }* propsS "}"
 	| processing: "processing" Id label "{" {ProcessingProp "," }* propsP "}"
-	| display: "display" Id label "{" {DisplayProp "," }* propsD "}" ;
+	| display: "display" Id label "{" {DisplayProp "," }* propsD "}" 
+	| reuseComp: Id label;
 	
 
 // Properties
