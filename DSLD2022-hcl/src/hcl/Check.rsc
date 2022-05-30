@@ -33,7 +33,12 @@ private bool checkLabelUniqueness(COMPUTER ast) {
 	return false;
 }
 
-private bool checkStorageSize() {
+private bool checkStorageSize(COMPUTER ast) {
+	// each drive between 32 and 1024 gb and total between 0 and 8192 gb
+	
+	return false;
+}
+private bool checkLSize() {
 	// for each L1 storage type return L1 < L2 < L3
 	return false;
 }
