@@ -33,9 +33,9 @@ syntax StorageProp =
 syntax ProcessingProp =
 	cores: "cores" ":" Int num
 	| speed: "speed" ":" Real value "Ghz"
-	| L1: "L1" ":" L1Size l1 ProcessingLType
-	| L2: "L2" ":" L2Size l2 ProcessingLType
-	| L3: "L3" ":" L3Size l3 ProcessingLType;
+	| L1: "L1" ":" Int i ProcessingLType
+	| L2: "L2" ":" Int i ProcessingLType
+	| L3: "L3" ":" Int i ProcessingLType;
 	
 syntax DisplayProp =
 	diagonal: "diagonal" ":" Real value "inch"

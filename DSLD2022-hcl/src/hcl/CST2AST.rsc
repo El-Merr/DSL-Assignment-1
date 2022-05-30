@@ -50,10 +50,10 @@ public STORAGETYPE loadStorageType(t) {
 public PROCESSINGPROP loadProcessingProp(ProcessingProp p) {
 	switch(p) {
 		case (ProcessingProp) `cores: <Int i>`: return cores(toInt("<i>"));
-		//case (ProcessingProp) `<Int value>`: return speed(toReal("<value>"));
-		case (ProcessingProp) `<L1Size l1s> <ProcessingLType t>`: return l1( toInt("<l1s>"), loadProcessingLType(t)); 
-		//case (ProcessingProp) `<L2Size l2s> <ProcessingType t>`: return loadProcessingLType(t);
-		//case (ProcessingProp) `<L3Size l3s> <ProcessingL3Type t>`: return loadProcessingLType(t);
+		case (ProcessingProp) `speed: <Real r> Ghz`: return speed(toReal("<r>"));
+		case (ProcessingProp) `L1: <Int i> <ProcessingLType t>`: return l1( toInt("<i>"), loadProcessingLType(t)); 
+		case (ProcessingProp) `L2: <Int i> <ProcessingLType t>`: return l2( toInt("<i>"), loadProcessingLType(t));
+		case (ProcessingProp) `L3: <Int i> <ProcessingLType t>`: return l3( toInt("<i>"), loadProcessingLType(t)); 
 		default: throw "processing error";	
 	}	
 }
