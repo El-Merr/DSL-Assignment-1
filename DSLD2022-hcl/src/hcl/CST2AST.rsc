@@ -16,13 +16,13 @@ import List;
  
 public COMPUTER loadComputer(loc text) = load(parseHCL(text)); // should this be (COMPUTER) abstr or Computer (conc)
 
-public COMPUTER load((Computer)`<Id id> { <Component comp>* } { <Id ids>* }`) = 
-	computerComp(id, [loadComponent(c) | c <- comp], [loadId(i) | i <- ids]);
+public COMPUTER load((Computer)`<Id label> { <Component* comp> } { <Id* labels> }`) = 
+	computerComp(label, [loadComponent(c) | c <- comp], [loadId(i) | i <- labels]);
 	
 // Case distinction on components
 public COMPONENT loadComponent(Component c) {
 	switch (c) {
-		case (Component) `<Id id> { <StorageProp p>* } `: return storage(loadId(id), loadStorageProp(p));
+		case (Component) `<Id label> { <StorageProp p>* } `: return storage(loadId(label), loadStorageProp(p));
 		default: throw "component error";
 	}
 } 
@@ -46,8 +46,8 @@ public STORAGETYPE loadStorageType(t) {
 }
 
 // Map lexial Id to str
-public str loadId(Id id) {
-	return id;
+public str loadId(Id i) {
+	return i;
 }
 
 // top level function to start conversion

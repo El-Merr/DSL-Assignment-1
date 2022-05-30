@@ -3,11 +3,10 @@ module hcl::Syntax
 /*
  * Define a concrete syntax for HCL. The langauge's specification is available in the PDF (Section 3)
  */
-
 	
 // Start of program
 start syntax Computer =
-	computerComp: "computer" Id id "{" {Component ","}* {Id ","}* "}";
+	computerComp: "computer" Id i "{" {Component ","}* {Id ","}* "}";
 
 layout Whitespace = [\ \t\n\r]*;
 
@@ -22,9 +21,9 @@ lexical Real = [0-9]+ ([.][0-9]+)?;
 
 // Components
 syntax Component =
-	storage: "storage" Id id "{" { StorageProp "," }* "}"
-	| processing: "processing" Id id "{" {ProcessingProp "," }* "}"
-	| display: "display" Id id "{" {DisplayProp "," }* "}" ;
+	storage: "storage" Id i "{" { StorageProp "," }* "}"
+	| processing: "processing" Id i "{" {ProcessingProp "," }* "}"
+	| display: "display" Id i "{" {DisplayProp "," }* "}" ;
 	
 
 // Properties
@@ -34,12 +33,12 @@ syntax StorageProp =
 syntax ProcessingProp =
 	cores: "cores" ":" Int int
 	| speed: "speed" ":" Real value "Ghz"
-	| L1: "L1" ":" Int int ProcessingLType
-	| L2: "L2" ":" Int int ProcessingLType
-	| L3: "L3" ":" Int int ProcessingLType;
+	| L1: "L1" ":" Int i ProcessingLType
+	| L2: "L2" ":" Int i ProcessingLType
+	| L3: "L3" ":" Int i ProcessingLType;
 	
 syntax DisplayProp =
-	diagonal: "diagonal" ":" Real real "inch"
+	diagonal: "diagonal" ":" Real r "inch"
 	| dType: "type" ":" DisplayType;
 
 
