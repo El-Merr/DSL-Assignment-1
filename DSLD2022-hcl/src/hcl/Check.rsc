@@ -63,17 +63,19 @@ private bool checkDisplayType(list[COMPONENT] comps) {
 	for (c <- comps) {
 		if (c := display(HlcId l, list[DISPLAYPROP] props) {
 			for (p <- props) {
-			 if (p := dtype(DISPLAYTYPE d) {
-				switch (d)  {
+				if (p := dtype(DISPLAYTYPE d) {
+					switch (d)  {
 						case "HD": return true;
 						case "Full-HD": return true;
 						case "4K": return true;
 						case "5K": return true;
-					default: return false;
+						default: return false;
+					}
 				}
 			}
 		}
-	}	
+	}
+	return false;	
 }
 
 private bool checkDuplicateComponents() {
