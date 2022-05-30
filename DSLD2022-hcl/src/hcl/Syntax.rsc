@@ -6,7 +6,7 @@ module hcl::Syntax
 	
 // Start of program
 start syntax Computer =
-	computerComp: "computer" Id label "{" {Component ","}* comps {Id ","}* labels "}";
+	computer: "computer" Id label "{" {Component ","}* comps "}";
 
 layout Whitespace = [\ \t\n\r]*;
 
@@ -33,9 +33,9 @@ syntax StorageProp =
 syntax ProcessingProp =
 	cores: "cores" ":" Int num
 	| speed: "speed" ":" Real value "Ghz"
-	| L1: "L1" ":" Int i ProcessingLType
-	| L2: "L2" ":" Int i ProcessingLType
-	| L3: "L3" ":" Int i ProcessingLType;
+	| L1: "L1" ":" L1Size l1 ProcessingLType
+	| L2: "L2" ":" L2Size l2 ProcessingLType
+	| L3: "L3" ":" L3Size l3 ProcessingLType;
 	
 syntax DisplayProp =
 	diagonal: "diagonal" ":" Real value "inch"
@@ -46,6 +46,10 @@ syntax DisplayProp =
 syntax StorageType = "HDD" | "SSD";
 	
 //syntax StorageSize = ; // range from 32 to 1024 GB
+
+syntax L1Size = Int i;
+syntax L2Size = Int i;
+syntax L3Size = Int i;
 
 syntax ProcessingLType = "KiB" | "MiB";
 

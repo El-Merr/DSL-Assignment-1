@@ -3,8 +3,8 @@ module hcl::CST2AST
 import hcl::AST;
 import hcl::Syntax;
 import hcl::Parser;
-//import util::Math;
 import String;
+import util::Math;
 import List;
 
 /*
@@ -13,42 +13,83 @@ import List;
  * Map regular CST arguments (e.g., *, +, ?) to lists
  * Map lexical nodes to Rascal primitive types (bool, int, str)
  */
- 
+
+// called in main 
 public COMPUTER loadComputer(loc text) = load(parseHCL(text)); // should this be (COMPUTER) abstr or Computer (conc)
 
-public COMPUTER load((Computer)`<Id label> { <Component* comp> } { <Id* labels> }`) = 
-	computerComp(label, [loadComponent(c) | c <- comp], [loadId(i) | i <- labels]);
+public COMPUTER load((Computer)`computer <Id label> { <Component* comp > } `) = 
+	computerComp("<label>", [loadComponent(c) | c <- comp]);
 	
 // Case distinction on components
 public COMPONENT loadComponent(Component c) {
 	switch (c) {
-		case (Component) `<Id label> { <StorageProp p>* } `: return storage(loadId(label), loadStorageProp(p));
+		case (Component) `storage <Id label> { <StorageProp* props> }`: return storage("<label>", [loadStorageProp(p) | p <- props]);
+		case (Component) `processing <Id label> { <ProcessingProp* props> }`: return processing("<label>", [loadProcessingProp(p) | p <- props ]);
+		case (Component) `display <Id label> { <DisplayProp* props> }`: return display("<label>", [loadDisplayProp(p) | p <- props] );
 		default: throw "component error";
 	}
 } 
 
 // StorageProp
 public STORAGEPROP loadStorageProp(StorageProp p) {
-	//load((StorageProp) `storage <StorageType t> <Int i>`) = StorageTypeSize(loadStorageType(t), toInt(i);
 	switch(p) {
-		case (StorageProp) `<StorageType t> <Int i>`: return StorageTypeSize(loadStorageType(t), toInt("<i>"));
+		case (StorageProp) `storage: <StorageType t> of <Int i> GiB`: return StorageTypeSize(loadStorageType(t), toInt("<i>"));
 		default: throw "storage error";	
 	}	
 }
 
-// StorageType
 public STORAGETYPE loadStorageType(t) {
 	switch (t) {
 		case "HDD": return hdd();
 		case "SSD": return ssd(); 
+		default: throw "storage type error";
 	}
-	return hdd(); //default
+}
+
+// processing
+public PROCESSINGPROP loadProcessingProp(ProcessingProp p) {
+	switch(p) {
+		case (ProcessingProp) `cores: <Int i>`: return cores(toInt("<i>"));
+		//case (ProcessingProp) `<Int value>`: return speed(toReal("<value>"));
+		case (ProcessingProp) `<L1Size l1s> <ProcessingLType t>`: return l1( toInt("<l1s>"), loadProcessingLType(t)); 
+		//case (ProcessingProp) `<L2Size l2s> <ProcessingType t>`: return loadProcessingLType(t);
+		//case (ProcessingProp) `<L3Size l3s> <ProcessingL3Type t>`: return loadProcessingLType(t);
+		default: throw "processing error";	
+	}	
+}
+
+public PROCESSINGLTYPE loadProcessingLType(ProcessingLType t) {
+	switch (t) {
+		case "KiB": return kib();
+		case "MiB": return mib();
+		default: throw "L Type error";
+	}
+}
+
+// display
+public DISPLAYPROP loadDisplayProp(DisplayProp p) {
+	switch(p) {
+		//case (DisplayProp) `diagonal: <Real r>` : return hdd();
+		case (DisplayProp) `diagonal: <Real r> inch`: return diagonal(toReal("<r>"));
+		case (DisplayProp) `type: <DisplayType d>`: return dType(loadDisplayType(d));
+		default: throw "display prop error";
+	}
+}
+
+public DISPLAYTYPE loadDisplayType(DisplayType d) {
+	switch (d) {
+		case "HD": return hd();
+		case "Full-HD": return fullhd();
+		case "4K": return vierk();
+		case "5K": return vijfk();
+		default: throw "display type error";
+	}
 }
 
 // Map lexial Id to str
-public str loadId(Id i) {
-	return i;
-}
+//public str loadId(Id i) {
+//	return i;
+//}
 
 // top level function to start conversion
 public COMPUTER cst2ast(&T parseTree) {

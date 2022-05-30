@@ -6,15 +6,15 @@ module hcl::AST
  * - make sure there is an almost one-to-one correspondence with the grammar in Syntax.rsc
  */
  
- // alias for id
- public alias Id = str;
+ // alias for HclId
+ public alias HclId = str;
  
  // main program
- public data COMPUTER = computerComp(Id id, list[COMPONENT] comps, list[Id] ids);
+ public data COMPUTER = computerComp(HclId label, list[COMPONENT] comps);
  public data COMPONENT = 
- 	storage(Id id, STORAGEPROP sProp)
- 	| processing(Id id, PROCESSINGPROP pProp)
- 	| display(Id id, DISPLAYPROP dProp);
+ 	storage(HclId label, list[STORAGEPROP] sProps)
+ 	| processing(HclId label, list[PROCESSINGPROP] pProps)
+ 	| display(HclId label, list[DISPLAYPROP] dProps);
 
 // storage 	
  public data STORAGEPROP = StorageTypeSize(STORAGETYPE sType, int Int);
@@ -24,7 +24,7 @@ module hcl::AST
  public data PROCESSINGPROP = 
  	cores(int Int)
  	| speed(real Real)
- 	| L1(int Int, PROCESSINGLTYPE pLType)
+ 	| l1(int Int, PROCESSINGLTYPE pLType)
  	| l2(int Int, PROCESSINGLTYPE pLType)
  	| l3(int Int, PROCESSINGLTYPE pLType);
  public data PROCESSINGLTYPE = kib() | mib();
@@ -33,6 +33,7 @@ module hcl::AST
  public data DISPLAYPROP = 
  	diagonal(real Real)
  	| dType(DISPLAYTYPE disType);
+ 
  public data DISPLAYTYPE = 
  	hd()
  	| fullhd() 
