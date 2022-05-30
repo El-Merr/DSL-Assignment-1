@@ -15,6 +15,6 @@ import hcl::CST2AST;
  // function to check parse tree output
  public void testParse(){
  	&T parsetree = parseHCL(|project://DSLD2022-hcl/test.hcl|);
- 	//println(parsetree);
+ 	println(parsetree);
  	println(cst2ast(parsetree));
  }
