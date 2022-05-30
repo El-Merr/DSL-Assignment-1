@@ -22,7 +22,8 @@ public bool checkHardwareConfiguration(COMPUTER ast) {
 	if (computer(HclId label, list[COMPONENT] comps) := ast) {
 		return checkStorageSize(label, comps)
 		&& checkLabelUniqueness(label, comps)
-		&& checkLSize(label, comps);
+		&& checkLSize(label, comps)
+		&& checkDisplayType(label, comps);
 	} else throw "Not a computer";
 }
 
@@ -33,7 +34,10 @@ private bool checkStorageSize(HclId label, list[COMPONENT] comps) {
 		switch (c) {
 			case storage(HclId label, list[STORAGEPROP] sProps): {
 				for ( sp <- sProps) {
-					if (storageTypeSize(STORAGETYPE sType, int size) := sp) total += size;
+					if (storageTypeSize(STORAGETYPE sType, int size) := sp) {
+						total += size;
+						if (32 < size || size > 1024) return false;
+					}
 				};
 			}
 			default: continue;
@@ -69,32 +73,36 @@ private bool checkLabelUniqueness(HclId label, list[COMPONENT] comps) {
 	&& clabel in labels;
 }
 
-private bool checkLSize(HclId label, List[PROCESSINGPROP] props) {
+private bool checkLSize(HclId label, List[COMPONENT] comps) {
 	list[int] sizes = [];
-	for ( p <- props) {
-		switch (p) {
-			case l1(int Int, PROCESSINGLTYPE pLType): {
-				// add size to array in MiB
-				sizes[1] = (pLType == "MiB") ? Int : Int * 1000;
-				// check if cache is larger then its maximum size
-				if (!(pLType == "MiB") ? Int < 0.128 : Int < 128) return false;
+	for (c <- comps) {
+		if ( processing(HclId label, list[PROCESSINGPROP] pProps) := c) {
+			for ( p <- props) {
+				switch (p) {
+					case l1(int Int, PROCESSINGLTYPE pLType): {
+						// add size to array in MiB
+						sizes[1] = (pLType == "MiB") ? Int : Int * 1000;
+						// check if cache is larger then its maximum size
+						if (!(pLType == "MiB") ? Int < 0.128 : Int < 128) return false;
+					}
+					case l2(int Int, PROCESSINGLTYPE pLType): {
+						sizes[2] = (pLType == "MiB") ? Int : Int * 1000;
+						if (!(pLType == "MiB") ? Int < 8 : Int < 8000) return false;
+					}
+					case l3(int Int, PROCESSINGLTYPE pLType): {
+						sizes[3] = (pLType == "MiB") ? Int : Int * 1000;
+						if (!(pLType == "MiB") ? Int < 32 : Int < 32000) return false;
+					}
+					default: continue;
+				}
 			}
-			case l2(int Int, PROCESSINGLTYPE pLType): {
-				sizes[2] = (pLType == "MiB") ? Int : Int * 1000;
-				if (!(pLType == "MiB") ? Int < 8 : Int < 8000) return false;
-			}
-			case l3(int Int, PROCESSINGLTYPE pLType): {
-				sizes[3] = (pLType == "MiB") ? Int : Int * 1000;
-				if (!(pLType == "MiB") ? Int < 32 : Int < 32000) return false;
-			}
-			default: continue;
 		}
 	}
 	// check if it satisfies L1 < L2 < L3
 	return sizes[1] < sizes[2] && sizes[2] < sizes[3];
 }
 
-private bool checkDisplayType(list[COMPONENT] comps) {
+private bool checkDisplayType(HclId label, list[COMPONENT] comps) {
 	for (c <- comps) {
 		if (display(HclId l, list[DISPLAYPROP] props) := c) {
 			for (p <- props) {
