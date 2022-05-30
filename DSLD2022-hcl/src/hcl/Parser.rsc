@@ -2,6 +2,7 @@ module hcl::Parser
 
 import ParseTree;
 import hcl::Syntax;
+import hcl::AST;
 import IO;
 
 import hcl::CST2AST;
@@ -14,7 +15,8 @@ import hcl::CST2AST;
  
  // function to check parse tree output
  public void testParse(){
- 	&T parsetree = parseHCL(|project://DSLD2022-hcl/src/hcl/PassingTests/test.hcl|);
- 	//println(parsetree);
- 	println(cst2ast(parsetree));
+ 	Computer parseboom = parseHCL(|project://DSLD2022-hcl/src/hcl/PassingTests/smallComputer.hcl|);
+ 	COMPUTER aboom = cst2ast(parseboom);
+ 	// println(parseboom);
+ 	println(aboom);
  }
