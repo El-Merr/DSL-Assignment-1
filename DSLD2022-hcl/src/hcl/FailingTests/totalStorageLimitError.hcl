@@ -16,7 +16,7 @@ computer my_comp {
 	stor,
 	stor,
 	stor,
-	stor
+	stor,
 	display disp {
 		diagonal: 30 inch,
 		type: 5K

@@ -11,10 +11,13 @@ import hcl::CST2AST;
  */
  
  public Computer parseHCL(loc l) = parse(#Computer, l);
+ public Computer loadImplode(loc l) = implode(#Computer, parse(#Computer, l)); 
  
  // function to check parse tree output
  public void testParse(){
- 	&T parsetree = parseHCL(|project://DSLD2022-hcl/src/hcl/PassingTests/test.hcl|);
- 	//println(parsetree);
- 	println(cst2ast(parsetree));
+ 	&T parseboom = parseHCL(|project://DSLD2022-hcl/src/hcl/PassingTests/smallComputer.hcl|);
+ 	println(cst2ast(|project://DSLD2022-hcl/src/hcl/PassingTests/smallComputer.hcl|));
+ }
+ public void testImplode() {
+ 	print(loadImplode(|project://DSLD2022-hcl/src/hcl/PassingTests/smallComputer.hcl|));
  }
