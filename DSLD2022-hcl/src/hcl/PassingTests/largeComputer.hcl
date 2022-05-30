@@ -9,9 +9,6 @@ computer my_comp {
 	storage stor {
 		storage: SSD of 1024 GiB
 	},
-	stor,
-	stor,
-	stor
 	display disp {
 		diagonal: 49 inch,
 		type: 5K
