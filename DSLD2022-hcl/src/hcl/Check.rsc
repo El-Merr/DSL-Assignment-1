@@ -19,17 +19,22 @@ import hcl::AST;
 */
 
 public bool checkHardwareConfiguration(COMPUTER ast) {
-	if(true) { //(computer(Id id, list[COMPONENT] comps, list[Id], list[Id] ids) := ast) {
-		return checkLabelUniqueness();
-	} else 
-		 throw "That is not a computer";
+	if (computerComp(HclId label, list[COMPONENT] comps) := ast) {
+		return checkLabelUniqueness(ast)
+		&& checkStorageSize()
+		&& checkDisplayType()
+		&& checkDuplicateComponents()
+		&& checkTypes();
+	} else return false;
 }
 
-private bool checkLabelUniqueness() {
+private bool checkLabelUniqueness(COMPUTER ast) {
+	// for each label in ast return notEqual
 	return false;
 }
 
 private bool checkStorageSize() {
+	// for each L1 storage type return L1 < L2 < L3
 	return false;
 }
 
