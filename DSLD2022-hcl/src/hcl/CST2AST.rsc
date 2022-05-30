@@ -5,6 +5,7 @@ import hcl::Syntax;
 import hcl::Parser;
 import String;
 import List;
+import IO;
 
 /*
  * Implement a mapping from concrete syntax trees (CSTs) to abstract syntax trees (ASTs)
@@ -18,7 +19,7 @@ import List;
 // public COMPUTER loadComputer(loc text) = load(parseHCL(text)); // should this be (COMPUTER) abstr or Computer (conc)
 
 public COMPUTER load((Computer)`computer <Id label> {<{Component","}* comp>}`) {
-	return computerComp("<label>", [loadComponent(c) | c <- comp]);
+	return computer("<label>", [loadComponent(c) | c <- comp]);
 }
 	
 // Case distinction on components
@@ -39,10 +40,10 @@ public STORAGEPROP loadStorageProp(StorageProp p) {
 	}	
 }
 
-public STORAGETYPE loadStorageType(t) {
+public STORAGETYPE loadStorageType(StorageType t) {
 	switch (t) {
-		case "HDD": return hdd();
-		case "SSD": return ssd(); 
+		case (StorageType)`HDD`: return hdd();
+		case (StorageType)`SSD`: return ssd(); 
 		default: throw "storage type error";
 	}
 }
@@ -61,8 +62,8 @@ public PROCESSINGPROP loadProcessingProp(ProcessingProp p) {
 
 public PROCESSINGLTYPE loadProcessingLType(ProcessingLType t) {
 	switch (t) {
-		case "KiB": return kib();
-		case "MiB": return mib();
+		case (ProcessingLType)`KiB`: return kib();
+		case (ProcessingLType)`MiB`: return mib();
 		default: throw "L Type error";
 	}
 }
@@ -79,10 +80,10 @@ public DISPLAYPROP loadDisplayProp(DisplayProp p) {
 
 public DISPLAYTYPE loadDisplayType(DisplayType d) {
 	switch (d) {
-		case "HD": return hd();
-		case "Full-HD": return fullhd();
-		case "4K": return vierk();
-		case "5K": return vijfk();
+		case (DisplayType)`HD`: return hd();
+		case (DisplayType)`Full-HD`: return fullhd();
+		case (DisplayType)`4K`: return vierk();
+		case (DisplayType)`5K`: return vijfk();
 		default: throw "display type error";
 	}
 }

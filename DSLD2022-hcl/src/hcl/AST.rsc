@@ -10,7 +10,7 @@ module hcl::AST
  public alias HclId = str;
  
  // main program
- public data COMPUTER = computerComp(HclId label, list[COMPONENT] comps);
+ public data COMPUTER = computer(HclId label, list[COMPONENT] comps);
  public data COMPONENT = 
  	storage(HclId label, list[STORAGEPROP] sProps)
  	| processing(HclId label, list[PROCESSINGPROP] pProps)

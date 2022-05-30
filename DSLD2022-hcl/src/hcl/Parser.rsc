@@ -16,7 +16,8 @@ import hcl::CST2AST;
  
  // function to check parse tree output
  public void testParse(){
- 	Computer parseboom = parseHCL(|project://DSLD2022-hcl/src/hcl/PassingTests/smallComputer.hcl|);
+ 	loc testloc = |project://DSLD2022-hcl/src/hcl/PassingTests/largeComputer.hcl|;
+ 	Computer parseboom = parseHCL(testloc);
  	COMPUTER aboom = cst2ast(parseboom);
  	// println(parseboom);
  	println(aboom);
