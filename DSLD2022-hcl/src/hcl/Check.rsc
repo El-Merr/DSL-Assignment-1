@@ -20,11 +20,13 @@ import hcl::AST;
 
 public bool checkHardwareConfiguration(COMPUTER ast) {
 	if (computer(HclId label, list[COMPONENT] comps) := ast) {
-		return true;
+		return checkStorageSize(label, comps)
+		&& checkLabelUniqueness(label, comps)
+		&& checkLSize(label, comps);
 	} else throw "Not a computer";
 }
 
-private bool checkStorageSize(HclId label, list[COMPONENTS] comps) {
+private bool checkStorageSize(HclId label, list[COMPONENT] comps) {
 	// each drive between 32 and 1024 gb and total between 0 and 8192 gb
 	int total = 0;
 	for ( c <- comps) {
@@ -68,7 +70,7 @@ private bool checkLabelUniqueness(HclId label, list[COMPONENT] comps) {
 }
 
 private bool checkLSize(HclId label, List[PROCESSINGPROP] props) {
-	Int sizes = [];
+	list[int] sizes = [];
 	for ( p <- props) {
 		switch (p) {
 			case l1(int Int, PROCESSINGLTYPE pLType): {
@@ -92,19 +94,27 @@ private bool checkLSize(HclId label, List[PROCESSINGPROP] props) {
 	return sizes[1] < sizes[2] && sizes[2] < sizes[3];
 }
 
-private bool checkDisplayType(DISPLAYTYPE d) {
-	switch (d)  {
-		case "HD": return true;
-		case "Full-HD": return true;
-		case "4K": return true;
-		case "5K": return true;
-		default: return false;
+private bool checkDisplayType(list[COMPONENT] comps) {
+	for (c <- comps) {
+		if (display(HclId l, list[DISPLAYPROP] props) := c) {
+			for (p <- props) {
+				if (dType(DISPLAYTYPE d) := p) {
+					switch (d)  {
+						case "HD": return true;
+						case "Full-HD": return true;
+						case "4K": return true;
+						case "5K": return true;
+						default: return false;
+					}
+				}
+			}
+		}
 	}
-	return false;
+	return false;	
 }
 
 private bool checkDuplicateComponents() {
-	return false;
+	return true;
 }
 
 // only support Booleans, integers, reals and strings
