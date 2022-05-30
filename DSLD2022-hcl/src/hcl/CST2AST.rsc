@@ -4,7 +4,6 @@ import hcl::AST;
 import hcl::Syntax;
 import hcl::Parser;
 import String;
-import util::Math;
 import List;
 
 /*
