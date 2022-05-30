@@ -3,6 +3,9 @@ module hcl::CST2AST
 import hcl::AST;
 import hcl::Syntax;
 import hcl::Parser;
+//import util::Math;
+import String;
+import List;
 
 /*
  * Implement a mapping from concrete syntax trees (CSTs) to abstract syntax trees (ASTs)
@@ -13,22 +16,22 @@ import hcl::Parser;
  
 public COMPUTER loadComputer(loc text) = load(parseHCL(text)); // should this be (COMPUTER) abstr or Computer (conc)
 
-public COMPUTER load((Computer) `computer (Id id) { <Component comp>* } { Id ids* }`) = 
-	computer(loadId(id), [loadComponent(c) | c <- comp], [loadId(i) | i <- ids]);
+public COMPUTER load((Computer)`<Id id> { <Component comp>* } { <Id ids>* }`) = 
+	computerComp(id, [loadComponent(c) | c <- comp], [loadId(i) | i <- ids]);
 	
 // Case distinction on components
 public COMPONENT loadComponent(Component c) {
 	switch (c) {
-		case (Component) `storage <Id id> { <Sts orageProp p>* } `: return storage(loadId(id), loadStorageProp(p));
+		case (Component) `<Id id> { <StorageProp p>* } `: return storage(loadId(id), loadStorageProp(p));
 		default: throw "component error";
 	}
 } 
 
 // StorageProp
 public STORAGEPROP loadStorageProp(StorageProp p) {
-	//load((StorageProp) `storage <StorageType t> <Int i>`) = StorageTypeSize(loadStorageType(t), loadInt(i));
+	//load((StorageProp) `storage <StorageType t> <Int i>`) = StorageTypeSize(loadStorageType(t), toInt(i);
 	switch(p) {
-		case (StorageProp) `storage <StorageType t> <Int i>`: return StorageTypeSize(loadStorageType(t), loadInt(i));
+		case (StorageProp) `<StorageType t> <Int i>`: return StorageTypeSize(loadStorageType(t), toInt("<i>"));
 		default: throw "storage error";	
 	}	
 }
@@ -45,16 +48,6 @@ public STORAGETYPE loadStorageType(t) {
 // Map lexial Id to str
 public str loadId(Id id) {
 	return id;
-}
-
-// Map lexial Int to int
-public int loadInt(Int i) {
-	return toInt(i);
-}
-
-// Map lexial Real to real
-public real loadReal(Real i) {
-	return i;
 }
 
 // top level function to start conversion

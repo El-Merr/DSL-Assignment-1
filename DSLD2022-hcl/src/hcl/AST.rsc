@@ -10,7 +10,7 @@ module hcl::AST
  public alias Id = str;
  
  // main program
- public data COMPUTER = computer(Id id, list[COMPONENT] comps, list[Id] ids);
+ public data COMPUTER = computerComp(Id id, list[COMPONENT] comps, list[Id] ids);
  public data COMPONENT = 
  	storage(Id id, STORAGEPROP sProp)
  	| processing(Id id, PROCESSINGPROP pProp)
@@ -40,7 +40,7 @@ module hcl::AST
  	| vijfk();
  
  // eclipse tells me these are deprecated but they work for now
- anno loc COMPUTR@location;
+ anno loc COMPUTER@location;
  anno loc COMPONENT@location;
  anno loc STORAGEPROP@location;
  anno loc STORAGETYPE@location;
