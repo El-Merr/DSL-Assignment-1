@@ -36,7 +36,7 @@ public COMPONENT loadComponent(Component c) {
 // StorageProp
 public STORAGEPROP loadStorageProp(StorageProp p) {
 	switch(p) {
-		case (StorageProp) `storage: <StorageType t> of <Int i> GiB`: return StorageTypeSize(loadStorageType(t), toInt("<i>"));
+		case (StorageProp) `storage: <StorageType t> of <Int i> GiB`: return storageTypeSize(loadStorageType(t), toInt("<i>"));
 		default: throw "storage error";	
 	}	
 }
