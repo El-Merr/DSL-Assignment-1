@@ -20,16 +20,15 @@ import hcl::AST;
 
 public bool checkHardwareConfiguration(COMPUTER ast) {
 	if (computerComp(HclId label, list[COMPONENT] comps) := ast) {
-		return checkLabelUniqueness(ast)
-		&& checkStorageSize(ast)
-		&& checkDisplayType()
-		&& checkDuplicateComponents()
-		&& checkTypes();
-	} else return false;
+		
+	} else throw
 }
 
 private bool checkLabelUniqueness(COMPUTER ast) {
 	// for each label in ast return notEqual
+	switch (ast) {
+		
+	}
 	return false;
 }
 
