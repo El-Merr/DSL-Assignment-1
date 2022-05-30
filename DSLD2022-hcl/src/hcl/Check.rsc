@@ -19,17 +19,24 @@ import hcl::AST;
 */
 
 public bool checkHardwareConfiguration(COMPUTER ast) {
-	if (computerComp(HclId label, list[COMPONENT] comps) := ast) {
-		
-	} else throw
-}
+	if (computer(HclId label, list[COMPONENT] comps) := ast) {
+		checkLabelUniqueness(label, comps);
+	} else throw "Not a computer";
+} 
 
-private bool checkLabelUniqueness(COMPUTER ast) {
-	// for each label in ast return notEqual
-	switch (ast) {
-		
+private bool checkLabelUniqueness(HclId label, list[COMPONENT] comps) {
+ 		// for each label in ast return notEqual
+ 	for (c <- comps) {
+		switch (c) {
+			case (storage(HclId l, list[PROCESSINGPROP] pProps)): slabel = l;
+			case (processing(HclId l, list[PROCESSINGPROP] pProps)): plabel = l;
+			case (display(HclId l, list[PROCESSINGPROP] pProps)): dlabel = l;
+			case (HclId l): clabel + l;
+		}
+		return sLabel != label;
 	}
-	return false;
+
+	return labels[0] != labels[1] != labels[2];
 }
 
 private bool checkStorageSize(COMPUTER ast) {
