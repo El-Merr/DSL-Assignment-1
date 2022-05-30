@@ -6,7 +6,7 @@ module hcl::Syntax
 	
 // Start of program
 start syntax Computer =
-	computerComp: "computer" Id i "{" {Component ","}* {Id ","}* "}";
+	computerComp: "computer" Id label "{" {Component ","}* comps {Id ","}* labels "}";
 
 layout Whitespace = [\ \t\n\r]*;
 
@@ -21,25 +21,25 @@ lexical Real = [0-9]+ ([.][0-9]+)?;
 
 // Components
 syntax Component =
-	storage: "storage" Id i "{" { StorageProp "," }* "}"
-	| processing: "processing" Id i "{" {ProcessingProp "," }* "}"
-	| display: "display" Id i "{" {DisplayProp "," }* "}" ;
+	storage: "storage" Id label "{" { StorageProp "," }* propsS "}"
+	| processing: "processing" Id label "{" {ProcessingProp "," }* propsP "}"
+	| display: "display" Id label "{" {DisplayProp "," }* propsD "}" ;
 	
 
 // Properties
 syntax StorageProp =
-	storageTypeSize: "storage" ":" StorageType "of" Int int "GiB"; // TODO: restrict size range
+	storageTypeSize: "storage" ":" StorageType type "of" Int size "GiB"; // TODO: restrict size range
 	
 syntax ProcessingProp =
-	cores: "cores" ":" Int int
+	cores: "cores" ":" Int num
 	| speed: "speed" ":" Real value "Ghz"
 	| L1: "L1" ":" Int i ProcessingLType
 	| L2: "L2" ":" Int i ProcessingLType
 	| L3: "L3" ":" Int i ProcessingLType;
 	
 syntax DisplayProp =
-	diagonal: "diagonal" ":" Real r "inch"
-	| dType: "type" ":" DisplayType;
+	diagonal: "diagonal" ":" Real value "inch"
+	| dType: "type" ":" DisplayType dtype;
 
 
 // Types	
