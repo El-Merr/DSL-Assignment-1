@@ -13,20 +13,24 @@ import hcl::Parser;
  
 public COMPUTER loadComputer(loc text) = load(parseHCL(text)); // should this be (COMPUTER) abstr or Computer (conc)
 
-public COMPUTER load((Computer) `computer <Id id> { <Component comp>* } { <Id ids>* }`) = 
+public COMPUTER load((Computer) `computer (Id id) { <Component comp>* } { Id ids* }`) = 
 	computer(loadId(id), [loadComponent(c) | c <- comp], [loadId(i) | i <- ids]);
 	
 // Case distinction on components
 public COMPONENT loadComponent(Component c) {
 	switch (c) {
-		case (Component) `storage <Id id> { <StorageProp p>* } `: return storage(loadStorageProp(p));
+		case (Component) `storage <Id id> { <Sts orageProp p>* } `: return storage(loadId(id), loadStorageProp(p));
+		default: throw "component error";
 	}
-	return load(c);
 } 
 
 // StorageProp
 public STORAGEPROP loadStorageProp(StorageProp p) {
-	return load((StorageProp) `storage <StorageType t> <Int i>`) = StorageTypeSize(loadStorageType(t), loadInt(i));
+	//load((StorageProp) `storage <StorageType t> <Int i>`) = StorageTypeSize(loadStorageType(t), loadInt(i));
+	switch(p) {
+		case (StorageProp) `storage <StorageType t> <Int i>`: return StorageTypeSize(loadStorageType(t), loadInt(i));
+		default: throw "storage error";	
+	}	
 }
 
 // StorageType
@@ -45,7 +49,7 @@ public str loadId(Id id) {
 
 // Map lexial Int to int
 public int loadInt(Int i) {
-	return i;
+	return toInt(i);
 }
 
 // Map lexial Real to real

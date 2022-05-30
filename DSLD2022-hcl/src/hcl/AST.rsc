@@ -12,9 +12,9 @@ module hcl::AST
  // main program
  public data COMPUTER = computer(Id id, list[COMPONENT] comps, list[Id] ids);
  public data COMPONENT = 
- 	storage(STORAGEPROP sProp)
- 	| processing(PROCESSINGPROP pProp)
- 	| display(DISPLAYPROP dProp);
+ 	storage(Id id, STORAGEPROP sProp)
+ 	| processing(Id id, PROCESSINGPROP pProp)
+ 	| display(Id id, DISPLAYPROP dProp);
 
 // storage 	
  public data STORAGEPROP = StorageTypeSize(STORAGETYPE sType, int Int);
