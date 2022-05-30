@@ -20,6 +20,25 @@ import hcl::AST;
 
 public bool checkHardwareConfiguration(COMPUTER ast) {
 	if (computer(HclId label, list[COMPONENT] comps) := ast) {
+		return true;
+	} else throw "Not a computer";
+}
+
+private bool checkStorageSize(HclId label, list[COMPONENTS] comps) {
+	// each drive between 32 and 1024 gb and total between 0 and 8192 gb
+	int total = 0;
+	for ( c <- comps) {
+		switch (c) {
+			case storage(HclId label, list[STORAGEPROP] sProps): {
+				for ( sp <- sProps) {
+					if (storageTypeSize(STORAGETYPE sType, int size) := sp) total += size;
+				};
+			}
+			default: continue;
+		}
+	}
+	
+	return total <= 8192;
 		return checkLabelUniqueness(label, comps) &&
 		checkStorageSize(comps);
 	} else throw "Not a computer";
@@ -51,12 +70,29 @@ private bool checkLabelUniqueness(HclId label, list[COMPONENT] comps) {
 	&& clabel in labels;
 }
 
-private bool checkStorageSize(list[COMPONENT] comps) {
-	return false;
-}
-private bool checkLSize() {
-	// for each L1 storage type return L1 < L2 < L3
-	return false;
+private bool checkLSize(HclId label, List[PROCESSINGPROP] props) {
+	Int sizes = [];
+	for ( p <- props) {
+		switch (p) {
+			case l1(int Int, PROCESSINGLTYPE pLType): {
+				// add size to array in MiB
+				sizes[1] = (pLType == "MiB") ? Int : Int * 1000;
+				// check if cache is larger then its maximum size
+				if (!(pLType == "MiB") ? Int < 0.128 : Int < 128) return false;
+			}
+			case l2(int Int, PROCESSINGLTYPE pLType): {
+				sizes[2] = (pLType == "MiB") ? Int : Int * 1000;
+				if (!(pLType == "MiB") ? Int < 8 : Int < 8000) return false;
+			}
+			case l3(int Int, PROCESSINGLTYPE pLType): {
+				sizes[3] = (pLType == "MiB") ? Int : Int * 1000;
+				if (!(pLType == "MiB") ? Int < 32 : Int < 32000) return false;
+			}
+			default: continue;
+		}
+	}
+	// check if it satisfies L1 < L2 < L3
+	return sizes[1] < sizes[2] && sizes[2] < sizes[3];
 }
 
 private bool checkDisplayType(list[COMPONENT] comps) {
