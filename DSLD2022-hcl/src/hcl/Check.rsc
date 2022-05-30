@@ -19,10 +19,10 @@ import hcl::AST;
 */
 
 public bool checkHardwareConfiguration(COMPUTER ast) {
-	if (computerComp(HclId label, list[COMPONENT] comps) := ast) {
+	if (computer(HclId label, list[COMPONENT] comps) := ast) {
 		return checkLabelUniqueness(ast)
 		&& checkStorageSize(ast)
-		&& checkDisplayType()
+		&& checkDisplayType(comps)
 		&& checkDuplicateComponents()
 		&& checkTypes();
 	} else return false;
@@ -43,7 +43,14 @@ private bool checkLSize() {
 	return false;
 }
 
-private bool checkDisplayType() {
+private bool checkDisplayType(DISPLAYTYPE d) {
+	switch (d)  {
+		case "HD": return true;
+		case "Full-HD": return true;
+		case "4K": return true;
+		case "5K": return true;
+		default: return false;
+	}
 	return false;
 }
 
@@ -51,6 +58,7 @@ private bool checkDuplicateComponents() {
 	return false;
 }
 
+// only support Booleans, integers, reals and strings
 private bool checkTypes() {
 	return false;
 }
