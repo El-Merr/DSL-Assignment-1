@@ -14,17 +14,19 @@ import List;
  */
 
 // called in main 
-//public COMPUTER loadComputer(loc text) = load(parseHCL(text)); // should this be (COMPUTER) abstr or Computer (conc)
 
-public COMPUTER load((Computer)`computer <Id label> { <Component* comp>  } `) = 
-	computerComp("<label>", [loadComponent(c) | c <- comp]);
+// public COMPUTER loadComputer(loc text) = load(parseHCL(text)); // should this be (COMPUTER) abstr or Computer (conc)
+
+public COMPUTER load((Computer)`computer <Id label> {<{Component","}* comp>}`) {
+	return computerComp("<label>", [loadComponent(c) | c <- comp]);
+}
 	
 // Case distinction on components
 public COMPONENT loadComponent(Component c) {
 	switch (c) {
-		case (Component) `storage <Id label> { <StorageProp* props> },`: return storage("<label>", [loadStorageProp(p) | p <- props]);
-		case (Component) `processing <Id label> { <ProcessingProp* props> },`: return processing("<label>", [loadProcessingProp(p) | p <- props ]);
-		case (Component) `display <Id label> { <DisplayProp* props> },`: return display("<label>", [loadDisplayProp(p) | p <- props] );
+		case (Component) `storage <Id label> { <{StorageProp","}* props> }`: return storage("<label>", [loadStorageProp(p) | p <- props]);
+		case (Component) `processing <Id label> { <{ProcessingProp","}* props> }`: return processing("<label>", [loadProcessingProp(p) | p <- props ]);
+		case (Component) `display <Id label> { <{DisplayProp","}* props> }`: return display("<label>", [loadDisplayProp(p) | p <- props] );
 		default: throw "component error";
 	}
 } 
@@ -86,6 +88,6 @@ public DISPLAYTYPE loadDisplayType(DisplayType d) {
 }
 
 // top level function to start conversion
-public COMPUTER cst2ast(&T parseTree) {
-	return load(parseTree);
+public COMPUTER cst2ast(Computer cst) {
+	return load(cst);
 }
